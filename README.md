@@ -9,13 +9,4 @@ Pocket Techie is a playful virtual desk pet that impersonates your favorite hust
 - Randomized “ship it” style phrases whenever the character eats
 - Built with React, Vite, Tailwind, and Framer Motion—no backend required
 
-## Quick Start
-
-```bash
-npm install
-npm run dev
-```
-
-Open the printed URL (usually `http://localhost:5173`) and start feeding your pixel pal.
-
 
