@@ -1,21 +1,21 @@
 import { motion } from 'framer-motion';
 
-// Image assets from Figma
-const imgVector1 = "http://localhost:3845/assets/0d5a63f06eee711f3972fcd6e9f4a1427cb25941.svg";
-const imgEllipse1 = "http://localhost:3845/assets/d097efe00552d9a3456f963ca695a8076b240f13.svg";
-const imgVector3 = "http://localhost:3845/assets/8a2c262f9100bfda14ef71e8e4c03c4c5d9513bc.svg";
-const imgVector4 = "http://localhost:3845/assets/84801a260bbed1c4d882d0bb1fa76a358ca9b4e9.svg";
-const imgLine4 = "http://localhost:3845/assets/99622ff410e7a611e65f47d4c548cff696d42e10.svg";
-const imgLine3 = "http://localhost:3845/assets/10f66c7daa211410217d5a25de67aead86225402.svg";
-const imgLine1 = "http://localhost:3845/assets/e46d0242724737d5c5aee8cde45e7536c46173f4.svg";
+// Image assets - local files
+const imgVector1 = "/assets/body.svg";
+const imgEllipse1 = "/assets/head.svg";
+const imgVector3 = "/assets/arm.svg";
+const imgVector4 = "/assets/leaf.svg";
+const imgLine4 = "/assets/chin-line.svg";
+const imgLine3 = "/assets/mouth-line.svg";
+const imgLine1 = "/assets/eyebrow.svg";
 // Shirt assets
-const imgVector5 = "http://localhost:3845/assets/696ee864cbd5569be9f738b04b757b5655dd8d58.svg";
-const imgImage6 = "http://localhost:3845/assets/7eedbac1408610943ec7e7ec708ed863aecdf769.png";
-const imgGroup14 = "http://localhost:3845/assets/9dba8f7f1f70576988c640eedb755473520ad7f5.svg";
-const imgImage8 = "http://localhost:3845/assets/448dbaf33abf767256fdff0d69cdfa42909e6a5b.png";
-const imgVector5Twitter = "http://localhost:3845/assets/ecd3dc95a9ca250824a0f2389dc01439630937fd.svg";
-const imgImage9 = "http://localhost:3845/assets/eb2e48e1e1eb00d39efb5f0670760b432e072323.png";
-const imgVector5Gooner = "http://localhost:3845/assets/38f7b67a282e3437fdb1ecc03be1c9e33ba50182.svg";
+const imgVector5 = "/assets/shirt-kalshi.svg";
+const imgImage6 = "/assets/kalshi-logo.png";
+const imgGroup14 = "/assets/shirt-nyc.svg";
+const imgImage8 = "/assets/nyc-logo.png";
+const imgVector5Twitter = "/assets/shirt-twitter.svg";
+const imgImage9 = "/assets/twitter-logo.png";
+const imgVector5Gooner = "/assets/shirt-gooner.svg";
 
 // Export breathing animation so it can be shared with other components
 export const breathingAnimation = {

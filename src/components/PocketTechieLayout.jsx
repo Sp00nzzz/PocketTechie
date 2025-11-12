@@ -43,20 +43,20 @@ const denialPhrases = [
   "Leave me alone"
 ];
 
-// Image assets for customize frame
-const imgVector1 = "http://localhost:3845/assets/0d5a63f06eee711f3972fcd6e9f4a1427cb25941.svg";
-const imgEllipse1 = "http://localhost:3845/assets/d097efe00552d9a3456f963ca695a8076b240f13.svg";
-const imgVector2 = "http://localhost:3845/assets/26c7719bb9d92731ce3055e92b1d37a1d8571ca9.svg";
-const imgVector3 = "http://localhost:3845/assets/8a2c262f9100bfda14ef71e8e4c03c4c5d9513bc.svg";
-const imgVector4 = "http://localhost:3845/assets/84801a260bbed1c4d882d0bb1fa76a358ca9b4e9.svg";
-const imgLine4 = "http://localhost:3845/assets/99622ff410e7a611e65f47d4c548cff696d42e10.svg";
-const imgLine3 = "http://localhost:3845/assets/10f66c7daa211410217d5a25de67aead86225402.svg";
-const imgLine1 = "http://localhost:3845/assets/e46d0242724737d5c5aee8cde45e7536c46173f4.svg";
-const imgFrame4 = "http://localhost:3845/assets/d09e52d0b8dca382bbfc36c43c8ffc67eca2a1bd.svg";
-const imgFrame5 = "http://localhost:3845/assets/14ab375a0ebd0b37be9eda36da0c88b5332f0bd5.svg";
+// Image assets for customize frame - local files
+const imgVector1 = "/assets/body.svg";
+const imgEllipse1 = "/assets/head.svg";
+const imgVector2 = "/assets/vector2.svg";
+const imgVector3 = "/assets/arm.svg";
+const imgVector4 = "/assets/leaf.svg";
+const imgLine4 = "/assets/chin-line.svg";
+const imgLine3 = "/assets/mouth-line.svg";
+const imgLine1 = "/assets/eyebrow.svg";
+const imgFrame4 = "/assets/frame-left.svg";
+const imgFrame5 = "/assets/frame-right.svg";
 // Pants assets
-const imgPants = "http://localhost:3845/assets/dc81a2a82586d97192c74931c016725d5a44908e.svg";
-const imgBrownPants = "http://localhost:3845/assets/765c44061e3a406d8eab3bfc6d24ae3de1c7862b.svg";
+const imgPants = "/assets/pants.svg";
+const imgBrownPants = "/assets/brown-pants.svg";
 
 // Helper function to render pants - used in both customize and normal modes
 const renderPants = (pantsType) => {
@@ -339,7 +339,7 @@ export const PocketTechieLayout = () => {
                   <div className="relative inline-block" style={{ lineHeight: 0 }}>
                     {/* Speech bubble using Figma vector */}
                     <img 
-                      src="http://localhost:3845/assets/5bb2c43a4f34b62e901baac45d760579bfbd2b9c.svg"
+                      src="/assets/speech-bubble.svg"
                       alt="Speech bubble"
                       className="block"
                       style={{ 
@@ -539,7 +539,7 @@ export const PocketTechieLayout = () => {
                   <div className="relative inline-block" style={{ lineHeight: 0 }}>
                     {/* Speech bubble using Figma vector */}
                     <img 
-                      src="http://localhost:3845/assets/5bb2c43a4f34b62e901baac45d760579bfbd2b9c.svg"
+                      src="/assets/speech-bubble.svg"
                       alt="Speech bubble"
                       className="block"
                       style={{ 
