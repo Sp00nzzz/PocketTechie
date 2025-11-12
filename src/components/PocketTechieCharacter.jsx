@@ -3,23 +3,32 @@ import { motion } from 'framer-motion';
 // Image assets from Figma
 const imgVector1 = "http://localhost:3845/assets/0d5a63f06eee711f3972fcd6e9f4a1427cb25941.svg";
 const imgEllipse1 = "http://localhost:3845/assets/d097efe00552d9a3456f963ca695a8076b240f13.svg";
-const imgVector2 = "http://localhost:3845/assets/26c7719bb9d92731ce3055e92b1d37a1d8571ca9.svg";
 const imgVector3 = "http://localhost:3845/assets/8a2c262f9100bfda14ef71e8e4c03c4c5d9513bc.svg";
 const imgVector4 = "http://localhost:3845/assets/84801a260bbed1c4d882d0bb1fa76a358ca9b4e9.svg";
 const imgLine4 = "http://localhost:3845/assets/99622ff410e7a611e65f47d4c548cff696d42e10.svg";
 const imgLine3 = "http://localhost:3845/assets/10f66c7daa211410217d5a25de67aead86225402.svg";
 const imgLine1 = "http://localhost:3845/assets/e46d0242724737d5c5aee8cde45e7536c46173f4.svg";
+// Shirt assets
+const imgVector5 = "http://localhost:3845/assets/696ee864cbd5569be9f738b04b757b5655dd8d58.svg";
+const imgImage6 = "http://localhost:3845/assets/7eedbac1408610943ec7e7ec708ed863aecdf769.png";
+const imgGroup14 = "http://localhost:3845/assets/9dba8f7f1f70576988c640eedb755473520ad7f5.svg";
+const imgImage8 = "http://localhost:3845/assets/448dbaf33abf767256fdff0d69cdfa42909e6a5b.png";
+const imgVector5Twitter = "http://localhost:3845/assets/ecd3dc95a9ca250824a0f2389dc01439630937fd.svg";
+const imgImage9 = "http://localhost:3845/assets/eb2e48e1e1eb00d39efb5f0670760b432e072323.png";
+const imgVector5Gooner = "http://localhost:3845/assets/38f7b67a282e3437fdb1ecc03be1c9e33ba50182.svg";
 
-export const PocketTechieCharacter = ({ onCharacterClick }) => {
+// Export breathing animation so it can be shared with other components
+export const breathingAnimation = {
+  scale: [1, 1.02, 1],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }
+};
+
+export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, pantsType = 'none', shirtType = 'none' }) => {
   // Idle animation variants
-  const breathingAnimation = {
-    scale: [1, 1.02, 1],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
-  };
 
   const headBobAnimation = {
     y: [0, -2, 0],
@@ -58,6 +67,15 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
     }
   };
 
+  const bowlVerticalAnimation = {
+    y: [0, 3, -3, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  };
+
   return (
     <>
       {/* Clickable area covering the character */}
@@ -81,29 +99,63 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
       {/* Character Details */}
       {/* Left arm */}
       <motion.div 
-        className="absolute h-[72.995px] left-[133px] top-[331px] w-[29.207px] z-10" 
+        key={`left-arm-${isFeeding ? 'swapped' : 'normal'}`}
+        className={`absolute h-[72.995px] w-[29.207px] z-[30] ${isFeeding ? 'flex items-center justify-center' : ''}`}
         data-node-id="1:21"
-        animate={armSwayAnimation}
-        style={{ transformOrigin: 'top center' }}
+        animate={isFeeding ? rightArmSwayAnimation : armSwayAnimation}
+        style={{ 
+          transformOrigin: 'top center',
+          scaleY: isFeeding ? -1 : 1,
+          top: isFeeding ? '395px' : '331px',
+          left: isFeeding ? '216.207px' : '133px'
+        }}
+        transition={{ duration: 0 }}
       >
-        <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
-          <img alt="Left arm" className="block max-w-none w-full h-full" src={imgVector2} />
-        </div>
+        {isFeeding ? (
+          <div className="flex-none rotate-[220deg] scale-y-[-100%]">
+            <div className="h-[72.995px] relative w-[29.207px]">
+              <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
+                <img alt="Left arm" className="block max-w-none w-full h-full" src={imgVector3} />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
+            <img alt="Left arm" className="block max-w-none w-full h-full" src={imgVector3} />
+          </div>
+        )}
       </motion.div>
 
       {/* Right arm */}
       <motion.div 
-        className="absolute flex h-[72.995px] items-center justify-center left-[216.207px] top-[331px] w-[29.207px] z-10"
-        animate={rightArmSwayAnimation}
-        style={{ transformOrigin: 'top center' }}
+        key={`right-arm-${isFeeding ? 'swapped' : 'normal'}`}
+        className={`absolute h-[72.995px] w-[29.207px] z-[30] ${isFeeding ? '' : 'flex items-center justify-center'}`}
+        animate={isFeeding ? armSwayAnimation : rightArmSwayAnimation}
+        style={{ 
+          transformOrigin: 'top center',
+          scaleY: isFeeding ? -1 : 1,
+          top: isFeeding ? '395px' : '331px',
+          left: isFeeding ? '133px' : '216.207px'
+        }}
+        transition={{ duration: 0 }}
       >
-        <div className="flex-none rotate-[180deg] scale-y-[-100%]">
-          <div className="h-[72.995px] relative w-[29.207px]" data-node-id="1:22">
-            <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
-              <img alt="Right arm" className="block max-w-none w-full h-full" src={imgVector3} />
+        {isFeeding ? (
+          <div className="flex-none rotate-[150deg] scale-y-[-100%] scale-x-[-100%]">
+            <div className="h-[72.995px] relative w-[29.207px]">
+              <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
+                <img alt="Right arm" className="block max-w-none w-full h-full" src={imgVector3} />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex-none rotate-[180deg] scale-y-[-100%]">
+            <div className="h-[72.995px] relative w-[29.207px]" data-node-id="1:22">
+              <div className="absolute inset-[-1.24%_-6.72%_-2.74%_-6.85%]">
+                <img alt="Right arm" className="block max-w-none w-full h-full" src={imgVector3} />
+              </div>
+            </div>
+          </div>
+        )}
       </motion.div>
 
       {/* Gray oval behind body */}
@@ -115,7 +167,7 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
         }}
       />
 
-      {/* Body and Leaf Container - synchronized animation */}
+      {/* Body Container - synchronized animation */}
       <motion.div 
         className="absolute left-[161px] top-[328px] z-10"
         animate={breathingAnimation}
@@ -130,16 +182,73 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
           </div>
         </div>
 
-        {/* Leaf on top of body */}
-        <div 
-          className="absolute left-[13px] top-[65px] w-[30px] h-[30px] z-[15]" 
+        {/* Shirt - positioned relative to body container */}
+        {shirtType === 'kalshi' && (
+          <div className="absolute top-[2px] left-0 w-[54.5px] h-[76.5px] z-20" data-node-id="15:338">
+            <div className="absolute h-[76.5px] w-[54.5px]" data-node-id="15:339">
+              <div className="absolute inset-[-4.47%_-3.67%_-2.61%_-3.67%]">
+                <img alt="" className="block max-w-none size-full" src={imgVector5} />
+              </div>
+            </div>
+            <div className="absolute h-[14px] left-[6.25px] top-[26px] w-[42px]" data-name="image 6" data-node-id="15:340">
+              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage6} />
+            </div>
+          </div>
+        )}
+
+        {shirtType === 'nyc' && (
+          <div className="absolute top-[2px] left-0 w-[54.5px] h-[76.5px] z-20" data-node-id="15:427">
+            <div className="absolute h-[76.5px] w-[54.5px]" data-node-id="15:366">
+              <div className="absolute inset-[-4.47%_-3.67%_-2.61%_-3.67%]">
+                <img alt="" className="block max-w-none size-full" src={imgGroup14} />
+              </div>
+            </div>
+            <div className="absolute h-[36px] left-[7.75px] top-[15px] w-[39px]" data-name="image 8" data-node-id="15:386">
+              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage8} />
+            </div>
+          </div>
+        )}
+
+        {shirtType === 'twitter' && (
+          <div className="absolute top-[2px] left-0 w-[54.5px] h-[76.5px] z-20" data-node-id="15:402">
+            <div className="absolute h-[76.5px] w-[54.5px]" data-node-id="15:403">
+              <div className="absolute inset-[-4.47%_-3.67%_-2.61%_-3.67%]">
+                <img alt="" className="block max-w-none size-full" src={imgVector5Twitter} />
+              </div>
+            </div>
+            <div className="absolute h-[31px] left-[11.75px] top-[13px] w-[31px]" data-name="image 9" data-node-id="15:436">
+              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage9} />
+            </div>
+          </div>
+        )}
+
+        {shirtType === 'gooner' && (
+          <div className="absolute top-[2px] left-0 w-[54.5px] h-[76.5px] z-20" data-node-id="15:460">
+            <div className="absolute h-[76.5px] w-[54.5px]" data-node-id="15:460">
+              <div className="absolute inset-[-4.47%_-3.67%_-2.61%_-3.67%]">
+                <img alt="" className="block max-w-none size-full" src={imgVector5Gooner} />
+              </div>
+            </div>
+            <div className="absolute left-[27.25px] top-[15px] translate-x-[-50%] pointer-events-none" data-node-id="15:478">
+              <p className="font-['Comic_Sans_MS',sans-serif] text-[12px] text-center text-white leading-tight mb-0">#1</p>
+              <p className="font-['Comic_Sans_MS',sans-serif] text-[12px] text-center text-white leading-tight">Gooner</p>
+            </div>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Leaf on top of body - only show when not wearing pants */}
+      {pantsType === 'none' && (
+        <motion.div 
+          className="absolute left-[174px] top-[393px] w-[30px] h-[30px] z-[30]"
           data-node-id="2:187"
+          animate={breathingAnimation}
         >
           <div className="absolute inset-[-10.39%_-17.35%_-22.96%_-16.73%]">
             <img alt="" className="block max-w-none w-full h-full" src={imgVector4} />
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
 
       {/* Chin Length */}
       <motion.div 
@@ -176,7 +285,7 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
       
       {/* Eyes Left Vertical Dimension 137px left*/}
       <motion.div 
-        className="absolute bg-black left-[145px] rounded-[50px] top-[283px] w-[5px] z-20 overflow-hidden" 
+        className="absolute bg-black rounded-[50px] top-[283px] w-[5px] z-20 overflow-hidden" 
         data-node-id="1:32"
         animate={{
           y: headBobAnimation.y,
@@ -186,7 +295,11 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
             scaleY: blinkAnimation.transition
           }
         }}
-        style={{ height: '11px', transformOrigin: 'center' }}
+        style={{ 
+          height: '11px', 
+          transformOrigin: 'center',
+          left: isFeeding ? '155px' : '145px'
+        }}
       />
       
       {/* Right Eyebrow */}
@@ -202,7 +315,7 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
       
       {/* Right Eye */}
       <motion.div 
-        className="absolute bg-black left-[191px] rounded-[50px] top-[283px] w-[5px] z-20 overflow-hidden" 
+        className="absolute bg-black rounded-[50px] top-[283px] w-[5px] z-20 overflow-hidden" 
         data-node-id="1:38"
         animate={{
           y: headBobAnimation.y,
@@ -212,8 +325,28 @@ export const PocketTechieCharacter = ({ onCharacterClick }) => {
             scaleY: blinkAnimation.transition
           }
         }}
-        style={{ height: '11px', transformOrigin: 'center' }}
+        style={{ 
+          height: '11px', 
+          transformOrigin: 'center',
+          left: isFeeding ? '201px' : '191px'
+        }}
       />
+
+      {/* Shawarma Bowl - appears when feeding */}
+      {isFeeding && (
+        <motion.div 
+          className="absolute left-[155px] top-[300px] z-[25] pointer-events-none"
+          style={{ transform: 'translateX(-50%)' }}
+          animate={bowlVerticalAnimation}
+        >
+          <img 
+            src="/shawarma.png" 
+            alt="Shawarma bowl" 
+            className="w-16 h-16 object-contain"
+            draggable={false}
+          />
+        </motion.div>
+      )}
     </>
   );
 };
