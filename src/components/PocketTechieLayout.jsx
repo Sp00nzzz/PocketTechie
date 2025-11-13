@@ -6,9 +6,11 @@ const buttons = ['Feed', 'Play', 'Twitter', 'Goon', 'Music', 'Customize'];
 
 const techBroPhrasesEating = [
   'Mmm, delicious slop',
-  'Best shawarma ever',
+  'This hits different',
   'Fuel for coding',
-  'Nom nom nom'
+  'Nom nom nom',
+  'Peak comfort food',
+  'Actually bussin'
 ];
 
 const edgyTechBroPhrases = [
@@ -144,6 +146,7 @@ const renderDialogueText = (dialogueText) => {
 
 export const PocketTechieLayout = () => {
   const [showShawarma, setShowShawarma] = useState(false);
+  const [foodType, setFoodType] = useState('shawarma'); // 'shawarma' or 'ramen'
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showDialogue, setShowDialogue] = useState(false);
   const [dialogueText, setDialogueText] = useState('');
@@ -193,6 +196,10 @@ export const PocketTechieLayout = () => {
 
   const handleButtonClick = (button, event) => {
     if (button === 'Feed') {
+      // Randomly choose between shawarma and ramen
+      const randomFood = Math.random() > 0.5 ? 'shawarma' : 'ramen';
+      setFoodType(randomFood);
+      
       // Get initial position at click location
       const container = document.querySelector('.relative.max-w-\\[400px\\]');
       if (container) {
@@ -255,6 +262,7 @@ export const PocketTechieLayout = () => {
             {/* Character Component - Same as normal mode */}
             <PocketTechieCharacter 
               isFeeding={false}
+              foodType={foodType}
               onCharacterClick={() => {
                 // Character clicked in customize mode - show edgy tech bro phrase
                 if (canClickCharacter && !showDialogue) {
@@ -442,6 +450,7 @@ export const PocketTechieLayout = () => {
             {/* Character Component */}
             <PocketTechieCharacter 
               isFeeding={armsSwapped}
+              foodType={foodType}
               pantsType={pantsType}
               shirtType={shirtType}
               onCharacterClick={() => {
@@ -485,7 +494,7 @@ export const PocketTechieLayout = () => {
               }} 
             />
 
-            {/* Shawarma Image - appears when Feed is clicked and follows cursor */}
+            {/* Food Image - appears when Feed is clicked and follows cursor */}
             <AnimatePresence>
               {showShawarma && (
                 <motion.div
@@ -510,8 +519,8 @@ export const PocketTechieLayout = () => {
                   }}
                 >
                   <img 
-                    src="/shawarma.png" 
-                    alt="Shawarma" 
+                    src={`/${foodType}.png`}
+                    alt={foodType === 'shawarma' ? 'Shawarma' : 'Ramen'} 
                     className="w-12 h-12 object-contain"
                     draggable={false}
                   />

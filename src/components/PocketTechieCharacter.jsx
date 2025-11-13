@@ -27,7 +27,7 @@ export const breathingAnimation = {
   }
 };
 
-export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, pantsType = 'none', shirtType = 'none' }) => {
+export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, foodType = 'shawarma', pantsType = 'none', shirtType = 'none' }) => {
   // Idle animation variants
 
   const headBobAnimation = {
@@ -332,7 +332,7 @@ export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, pan
         }}
       />
 
-      {/* Shawarma Bowl - appears when feeding */}
+      {/* Food Bowl - appears when feeding */}
       {isFeeding && (
         <motion.div 
           className="absolute left-[155px] top-[300px] z-[25] pointer-events-none"
@@ -340,8 +340,8 @@ export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, pan
           animate={bowlVerticalAnimation}
         >
           <img 
-            src="/shawarma.png" 
-            alt="Shawarma bowl" 
+            src={`/${foodType}.png`}
+            alt={foodType === 'shawarma' ? 'Shawarma bowl' : 'Ramen bowl'} 
             className="w-16 h-16 object-contain"
             draggable={false}
           />
