@@ -6,15 +6,14 @@ const buttons = ['Feed', 'Play', 'Code', 'Goon', 'Music', 'Customize'];
 
 const techBroPhrasesEating = [
   'Mmm, delicious slop',
-  'This hits different',
   'Fuel for coding',
   'Nom nom nom',
-  'Peak comfort food',  
-  'Actually bussin'
+  'I love my slop bowl', 
 ];
 
 const edgyTechBroPhrases = [
   "Let me post this on X",
+  "Gooning times",
   "Fuck my stupid chungus life",
   "I'm going to make it into YC bro",
   "yeah i predicted cluely downfall",
@@ -31,6 +30,16 @@ const denialPhrases = [
   "Maybe later",
   "I'm busy",
   "Leave me alone"
+];
+
+const lockingInPhrases = [
+  "I'm locking in",
+  "No time for games",
+  "Gotta focus",
+  "Work mode activated",
+  "Too busy grinding",
+  "Not now, coding",
+  "In the zone rn"
 ];
 
 // Image assets for customize frame - local files
@@ -151,6 +160,15 @@ export const PocketTechieLayout = () => {
   const [characterName, setCharacterName] = useState('Name');
   const [tempName, setTempName] = useState('Name'); // Temporary name while editing
   const [hasTyped, setHasTyped] = useState(false); // Track if user has typed
+  const [gameType, setGameType] = useState('asteroids'); // 'asteroids' or 'snake'
+  const [happiness, setHappiness] = useState(1); // Happiness level 1-4 (correlates with hearts)
+  const [streak, setStreak] = useState(0); // Interaction streak counter
+  const [xp, setXp] = useState(0); // Experience points
+  const [level, setLevel] = useState(1); // Character level
+  const [showParticles, setShowParticles] = useState(false); // Show particle effects
+  const [showLevelUp, setShowLevelUp] = useState(false); // Show level up notification
+  const [achievements, setAchievements] = useState([]); // Unlocked achievements
+  const [totalInteractions, setTotalInteractions] = useState(0); // Total interactions count
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -193,6 +211,94 @@ export const PocketTechieLayout = () => {
       };
     }
   }, [showDialogue, isPlaying, isCoding, isListeningMusic]);
+
+  // Handle playing animation timeout - 4 seconds max
+  useEffect(() => {
+    if (isPlaying) {
+      const timer = setTimeout(() => {
+        setIsPlaying(false);
+      }, 4000); // 4 seconds for playing gameboy
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [isPlaying]);
+
+  // Handle XP leveling system
+  useEffect(() => {
+    const xpNeeded = level * 100; // 100 XP per level
+    if (xp >= xpNeeded) {
+      setLevel(level + 1);
+      setXp(xp - xpNeeded);
+      setShowLevelUp(true);
+      setShowParticles(true);
+      
+      // Hide level up notification after 2 seconds
+      setTimeout(() => {
+        setShowLevelUp(false);
+      }, 2000);
+      
+      // Hide particles after 1 second
+      setTimeout(() => {
+        setShowParticles(false);
+      }, 1000);
+    }
+  }, [xp, level]);
+
+  // Handle interaction rewards
+  const handleInteraction = (type, accepted = true) => {
+    if (accepted) {
+      setTotalInteractions(totalInteractions + 1);
+      setStreak(streak + 1);
+      
+      // Award XP based on interaction type
+      let xpGain = 10;
+      if (type === 'feed') xpGain = 15;
+      if (type === 'play') xpGain = 20;
+      if (type === 'code') xpGain = 25;
+      if (type === 'music') xpGain = 20;
+      
+      setXp(xp + xpGain);
+      
+      // Increase happiness (max 4)
+      if (happiness < 4) {
+        setHappiness(Math.min(4, happiness + 1));
+      }
+      
+      setShowParticles(true);
+      setTimeout(() => setShowParticles(false), 800);
+      
+      // Check for achievements
+      checkAchievements();
+    } else {
+      // Reset streak on rejection
+      setStreak(0);
+      // Decrease happiness (min 1)
+      if (happiness > 1) {
+        setHappiness(Math.max(1, happiness - 1));
+      }
+    }
+  };
+
+  // Achievement system
+  const checkAchievements = () => {
+    const newAchievements = [];
+    
+    if (totalInteractions >= 10 && !achievements.includes('first_steps')) {
+      newAchievements.push('first_steps');
+    }
+    if (streak >= 5 && !achievements.includes('on_fire')) {
+      newAchievements.push('on_fire');
+    }
+    if (level >= 5 && !achievements.includes('power_user')) {
+      newAchievements.push('power_user');
+    }
+    
+    if (newAchievements.length > 0) {
+      setAchievements([...achievements, ...newAchievements]);
+    }
+  };
 
   const handleButtonClick = (button, event) => {
     if (button === 'Feed') {
@@ -331,35 +437,44 @@ export const PocketTechieLayout = () => {
         {/* Status Frame - shows Name and mood */}
         <div className="absolute left-[7px] top-[67px] w-[357px] h-[71px] z-10" data-node-id="40:887">
           <div className="absolute h-[71px] left-0 rounded-[10px] top-0 w-[357px]" data-node-id="22:498" style={{ backgroundImage: "linear-gradient(180.932deg, rgba(0, 0, 0, 0) 30.641%, rgba(0, 0, 0, 0.2) 92.251%), linear-gradient(90deg, rgb(217, 217, 217) 0%, rgb(217, 217, 217) 100%)" }} />
-          <div className="absolute h-[17.238px] left-[221.15px] top-[41px] w-[18.477px]" data-node-id="40:888">
-            <div className="absolute inset-[-19.79%_-18.39%_-32.24%_-18.4%]">
-              <img alt="" className="block max-w-none size-full" src="/assets/heart-filled.svg" />
-            </div>
-          </div>
-          <div className="absolute h-[17.238px] left-[253.22px] top-[41px] w-[18.477px]" data-node-id="40:889">
-            <div className="absolute inset-[-19.79%_-18.39%_-32.24%_-18.4%]">
-              <img alt="" className="block max-w-none size-full" src="/assets/heart-outline.svg" />
-            </div>
-          </div>
-          <div className="absolute h-[17.238px] left-[285.3px] top-[41px] w-[18.477px]" data-node-id="40:891">
-            <div className="absolute inset-[-19.79%_-18.39%_-32.24%_-18.4%]">
-              <img alt="" className="block max-w-none size-full" src="/assets/heart-outline.svg" />
-            </div>
-          </div>
-          <div className="absolute h-[17.238px] left-[317.37px] top-[41px] w-[18.477px]" data-node-id="40:890">
-            <div className="absolute inset-[-19.79%_-18.39%_-32.24%_-18.4%]">
-              <img alt="" className="block max-w-none size-full" src="/assets/heart-outline.svg" />
-            </div>
-          </div>
+          
+          {/* Dynamic Hearts based on happiness level */}
+          {[1, 2, 3, 4].map((heartNum) => (
+            <motion.div 
+              key={heartNum}
+              className="absolute h-[17.238px] w-[18.477px] top-[41px]" 
+              style={{ left: `${229.15 + (heartNum - 1) * 32.07}px` }}
+              animate={happiness >= heartNum ? { scale: [1, 1.2, 1] } : {}}
+              transition={happiness >= heartNum ? { duration: 0.3 } : {}}
+            >
+              <div className="absolute inset-[-19.79%_-18.39%_-32.24%_-18.4%]">
+                <img alt="" className="block max-w-none size-full" src={happiness >= heartNum ? "/assets/heart-filled.svg" : "/assets/heart-outline.svg"} />
+              </div>
+            </motion.div>
+          ))}
+          
           <div className="absolute left-[7px] size-[25px] top-[39px]" data-node-id="40:903">
             <img alt="" className="block max-w-none size-full" src="/assets/annoyed-face.svg" />
           </div>
           <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[normal] left-[9px] not-italic text-[12px] text-black text-nowrap top-[14px] whitespace-pre" data-node-id="40:904">
-            {characterName}
+            {characterName} Lv.{level}
           </p>
           <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-[39px] not-italic text-[10px] text-black text-nowrap top-[45px] whitespace-pre" data-node-id="40:905">
-            Annoyed
+            {happiness === 4 ? 'Ecstatic' : happiness === 3 ? 'Happy' : happiness === 2 ? 'Content' : 'Annoyed'}
           </p>
+          
+          {/* XP Bar */}
+          <div className="absolute left-[210px] top-[14px] w-[100px] h-[12px] bg-gray-300 rounded-full overflow-hidden border-2 border-black">
+            <motion.div 
+              className="h-full bg-gradient-to-r from-blue-400 to-blue-600"
+              animate={{ width: `${(xp / (level * 100)) * 100}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+          <p className="absolute font-['Inter',sans-serif] font-normal text-[8px] text-black left-[315px] top-[15px]">
+            {xp}/{level * 100} XP
+          </p>
+          
         </div>
 
         {isCustomizeMode ? (
@@ -683,24 +798,30 @@ export const PocketTechieLayout = () => {
                       setIsFeeding(false);
                       setIsCoding(false);
                       setIsListeningMusic(false);
+                      // Randomly choose between asteroids and snake
+                      setGameType(Math.random() > 0.5 ? 'asteroids' : 'snake');
                       // Don't show dialogue for playing gameboy
                       setShowItem(false);
+                      handleInteraction('play', true);
                       return;
                     } else if (itemType === 'macbook') {
                       setIsCoding(true);
                       setIsFeeding(false);
                       setIsPlaying(false);
                       setIsListeningMusic(false);
+                      handleInteraction('code', true);
                     } else if (itemType === 'ipod') {
                       setIsListeningMusic(true);
                       setIsFeeding(false);
                       setIsPlaying(false);
                       setIsCoding(false);
+                      handleInteraction('music', true);
                     } else {
                       setIsFeeding(true);
                       setIsPlaying(false);
                       setIsCoding(false);
                       setIsListeningMusic(false);
+                      handleInteraction('feed', true);
                     }
                     // Character accepts item - show dialogue and hide item
                     // Randomly select an eating phrase
@@ -711,7 +832,10 @@ export const PocketTechieLayout = () => {
                     // Timeout is handled in useEffect to ensure proper cleanup
                   } else {
                     // Character denies item - show denial message
-                    const randomDenial = denialPhrases[Math.floor(Math.random() * denialPhrases.length)];
+                    // Use different phrases for gameboy vs other items
+                    const randomDenial = itemType === 'gameboy' 
+                      ? lockingInPhrases[Math.floor(Math.random() * lockingInPhrases.length)]
+                      : denialPhrases[Math.floor(Math.random() * denialPhrases.length)];
                     setDialogueText(randomDenial);
                     setShowDialogue(true);
                     setShowItem(false);
@@ -719,6 +843,7 @@ export const PocketTechieLayout = () => {
                     setIsPlaying(false); // Don't swap arms when denied
                     setIsCoding(false); // Don't swap arms when denied
                     setIsListeningMusic(false); // Don't swap arms when denied
+                    handleInteraction('rejected', false);
                     // Timeout is handled in useEffect to ensure proper cleanup
                   }
                 } else {
@@ -739,7 +864,7 @@ export const PocketTechieLayout = () => {
               }} 
             />
 
-            {/* Asteroids Game Animation - appears when playing gameboy */}
+            {/* Game Animation - appears when playing gameboy */}
             <AnimatePresence>
               {isPlaying && (
                 <motion.div
@@ -752,80 +877,161 @@ export const PocketTechieLayout = () => {
                   {/* Game screen background */}
                   <div className="absolute inset-0 bg-black rounded-sm border-2 border-gray-600" />
                   
-                  {/* Spaceship */}
-                  <motion.div
-                    className="absolute bottom-[10px] w-0 h-0"
-                    animate={{
-                      left: [10, 30, 60, 80, 60, 30, 10],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{
-                      borderLeft: '5px solid transparent',
-                      borderRight: '5px solid transparent',
-                      borderBottom: '10px solid white',
-                    }}
-                  />
-                  
-                  {/* Bullets */}
-                  <motion.div
-                    className="absolute left-[48px] w-[2px] h-[4px] bg-white"
-                    animate={{
-                      y: [-10, -70],
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                  />
-                  
-                  {/* Asteroid 1 */}
-                  <motion.div
-                    className="absolute left-[20px] w-[8px] h-[8px] bg-gray-400 rounded-sm"
-                    animate={{
-                      y: [0, 80],
-                      rotate: [0, 180]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                  />
-                  
-                  {/* Asteroid 2 */}
-                  <motion.div
-                    className="absolute left-[60px] w-[10px] h-[10px] bg-gray-500 rounded-sm"
-                    animate={{
-                      y: [-20, 80],
-                      rotate: [0, -180]
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: 0.5
-                    }}
-                  />
-                  
-                  {/* Asteroid 3 */}
-                  <motion.div
-                    className="absolute left-[35px] w-[6px] h-[6px] bg-gray-300 rounded-sm"
-                    animate={{
-                      y: [-30, 80],
-                      rotate: [0, 360]
-                    }}
-                    transition={{
-                      duration: 1.8,
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: 1
-                    }}
-                  />
+                  {gameType === 'asteroids' ? (
+                    <>
+                      {/* Spaceship */}
+                      <motion.div
+                        className="absolute bottom-[10px] w-0 h-0"
+                        animate={{
+                          left: [10, 30, 60, 80, 60, 30, 10],
+                        }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        style={{
+                          borderLeft: '5px solid transparent',
+                          borderRight: '5px solid transparent',
+                          borderBottom: '10px solid white',
+                        }}
+                      />
+                      
+                      {/* Bullets */}
+                      <motion.div
+                        className="absolute left-[48px] w-[2px] h-[4px] bg-white"
+                        animate={{
+                          y: [-10, -70],
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Asteroid 1 */}
+                      <motion.div
+                        className="absolute left-[20px] w-[8px] h-[8px] bg-gray-400 rounded-sm"
+                        animate={{
+                          y: [0, 80],
+                          rotate: [0, 180]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Asteroid 2 */}
+                      <motion.div
+                        className="absolute left-[60px] w-[10px] h-[10px] bg-gray-500 rounded-sm"
+                        animate={{
+                          y: [-20, 80],
+                          rotate: [0, -180]
+                        }}
+                        transition={{
+                          duration: 2.5,
+                          repeat: Infinity,
+                          ease: "linear",
+                          delay: 0.5
+                        }}
+                      />
+                      
+                      {/* Asteroid 3 */}
+                      <motion.div
+                        className="absolute left-[35px] w-[6px] h-[6px] bg-gray-300 rounded-sm"
+                        animate={{
+                          y: [-30, 80],
+                          rotate: [0, 360]
+                        }}
+                        transition={{
+                          duration: 1.8,
+                          repeat: Infinity,
+                          ease: "linear",
+                          delay: 1
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {/* Snake Game */}
+                      {/* Snake Head */}
+                      <motion.div
+                        className="absolute w-[5px] h-[5px] bg-green-400"
+                        animate={{
+                          x: [10, 30, 50, 70, 85, 85, 65, 45, 25, 10, 10],
+                          y: [10, 10, 10, 10, 10, 30, 50, 50, 50, 30, 10]
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Snake Body Segment 1 */}
+                      <motion.div
+                        className="absolute w-[5px] h-[5px] bg-green-500"
+                        animate={{
+                          x: [10, 10, 30, 50, 70, 85, 85, 65, 45, 25, 10],
+                          y: [10, 10, 10, 10, 10, 10, 30, 50, 50, 50, 30]
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Snake Body Segment 2 */}
+                      <motion.div
+                        className="absolute w-[5px] h-[5px] bg-green-500"
+                        animate={{
+                          x: [10, 10, 10, 30, 50, 70, 85, 85, 65, 45, 25],
+                          y: [10, 10, 10, 10, 10, 10, 10, 30, 50, 50, 50]
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Snake Body Segment 3 */}
+                      <motion.div
+                        className="absolute w-[5px] h-[5px] bg-green-600"
+                        animate={{
+                          x: [10, 10, 10, 10, 30, 50, 70, 85, 85, 65, 45],
+                          y: [10, 10, 10, 10, 10, 10, 10, 10, 30, 50, 50]
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                      
+                      {/* Food/Apple */}
+                      <motion.div
+                        className="absolute w-[5px] h-[5px] bg-red-500 rounded-sm"
+                        style={{
+                          left: '45px',
+                          top: '35px'
+                        }}
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [1, 0.7, 1]
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    </>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -904,6 +1110,56 @@ export const PocketTechieLayout = () => {
             </AnimatePresence>
           </>
         )}
+
+        {/* Particle Effects */}
+        <AnimatePresence>
+          {showParticles && (
+            <>
+              {[...Array(10)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{
+                    left: '200px',
+                    top: '300px',
+                    background: ['#fbbf24', '#60a5fa', '#34d399', '#f87171'][i % 4],
+                  }}
+                  initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+                  animate={{
+                    scale: [0, 1, 0],
+                    x: (Math.random() - 0.5) * 100,
+                    y: (Math.random() - 0.5) * 100,
+                    opacity: [1, 1, 0],
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: i * 0.05,
+                    ease: "easeOut"
+                  }}
+                />
+              ))}
+            </>
+          )}
+        </AnimatePresence>
+
+
+        {/* Floating XP Indicators */}
+        <AnimatePresence>
+          {showParticles && (
+            <motion.div
+              className="absolute left-[200px] top-[250px] z-50 pointer-events-none"
+              initial={{ y: 0, opacity: 1, scale: 1 }}
+              animate={{ y: -50, opacity: 0, scale: 1.2 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-green-500 font-bold text-xl drop-shadow-lg">
+                +XP
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
