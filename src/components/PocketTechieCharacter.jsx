@@ -24,7 +24,7 @@ const imgImage14 = "/assets/new-shirt-image.png";
 // Glasses asset
 const imgGlasses = "/assets/glasses.svg";
 // Headphones asset
-const imgHeadphones = "http://localhost:3845/assets/5e1c69c1e727811719e4f305d2277d7f387a9b95.svg";
+const imgHeadphones = "/assets/headphones.svg";
 
 // Export breathing animation so it can be shared with other components
 export const breathingAnimation = {
