@@ -346,7 +346,7 @@ export const PocketTechieLayout = () => {
             </div>
           </div>
           <div className="absolute left-[7px] size-[25px] top-[39px]" data-node-id="40:903">
-            <img alt="" className="block max-w-none size-full" src="http://localhost:3845/assets/89df8fb87261e5d85a0c96ee0e55e1fbcdb0c4a1.svg" />
+            <img alt="" className="block max-w-none size-full" src="/assets/annoyed-face.svg" />
           </div>
           <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[normal] left-[9px] not-italic text-[12px] text-black text-nowrap top-[14px] whitespace-pre" data-node-id="40:904">
             {characterName}
