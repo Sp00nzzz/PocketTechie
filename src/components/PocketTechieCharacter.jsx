@@ -21,6 +21,8 @@ const imgVector5Femcel = "/assets/shirt-femcel.svg";
 const imgImage11 = "/assets/femcel-image.png";
 const imgVector5New = "/assets/shirt-new.svg";
 const imgImage14 = "/assets/new-shirt-image.png";
+const imgVector5Figma = "/assets/shirt-figma.svg";
+const imgImage18 = "/assets/badge-figma.png";
 // Glasses asset
 const imgGlasses = "/assets/glasses.svg";
 // Headphones asset
@@ -448,6 +450,17 @@ export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, isP
           </div>
           <div className="absolute h-[35px] left-[7.75px] top-[21px] w-[39px]" data-name="image 14" data-node-id="39:765">
             <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage14} />
+          </div>
+        </div>
+
+        <div className="absolute top-[2px] left-0 w-[54.5px] h-[78.5px] z-20" data-node-id="43:960" style={{ opacity: shirtType === 'figma' ? 1 : 0, pointerEvents: shirtType === 'figma' ? 'auto' : 'none' }}>
+          <div className="absolute h-[78.5px] w-[54.5px]">
+            <div className="absolute inset-[-4.93%_-3.67%_-2.55%_-3.67%]">
+              <img alt="" className="block max-w-none size-full" src={imgVector5Figma} />
+            </div>
+          </div>
+          <div className="absolute h-[26px] left-[6.25px] rounded-[2px] top-[25px] w-[42px]" data-name="image 18" data-node-id="43:959">
+            <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[2px] size-full" src={imgImage18} />
           </div>
         </div>
       </motion.div>

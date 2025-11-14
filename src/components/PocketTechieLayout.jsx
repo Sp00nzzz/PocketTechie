@@ -144,7 +144,7 @@ export const PocketTechieLayout = () => {
   const [isListeningMusic, setIsListeningMusic] = useState(false); // Headbob for listening to music
   const [isGooning, setIsGooning] = useState(false); // Eyes shift right for gooning
   const [isCustomizeMode, setIsCustomizeMode] = useState(false);
-  const [shirtType, setShirtType] = useState('none'); // 'none', 'kalshi', 'nyc', 'twitter', 'gooner', 'femcel', 'new'
+  const [shirtType, setShirtType] = useState('none'); // 'none', 'kalshi', 'nyc', 'twitter', 'gooner', 'femcel', 'new', 'figma'
   const [pantsType, setPantsType] = useState('none'); // 'none', 'pants'
   const [glassesType, setGlassesType] = useState('none'); // 'none', 'glasses'
   const [canClickCharacter, setCanClickCharacter] = useState(true);
@@ -427,7 +427,7 @@ export const PocketTechieLayout = () => {
               <div 
                 className="absolute top-[45px] left-0 right-0 h-[91px] cursor-pointer z-10"
                 onClick={() => {
-                  // Cycle through: none -> kalshi -> nyc -> twitter -> gooner -> femcel -> new -> none
+                  // Cycle through: none -> kalshi -> nyc -> twitter -> gooner -> femcel -> new -> figma -> none
                   if (shirtType === 'none') {
                     setShirtType('kalshi');
                   } else if (shirtType === 'kalshi') {
@@ -440,6 +440,8 @@ export const PocketTechieLayout = () => {
                     setShirtType('femcel');
                   } else if (shirtType === 'femcel') {
                     setShirtType('new');
+                  } else if (shirtType === 'new') {
+                    setShirtType('figma');
                   } else {
                     setShirtType('none');
                   }
@@ -586,8 +588,10 @@ export const PocketTechieLayout = () => {
               <div 
                 className="absolute top-[45px] left-0 right-0 h-[91px] cursor-pointer z-10"
                 onClick={() => {
-                  // Cycle through in reverse order: none -> new -> femcel -> gooner -> twitter -> nyc -> kalshi -> none
+                  // Cycle through in reverse order: none -> figma -> new -> femcel -> gooner -> twitter -> nyc -> kalshi -> none
                   if (shirtType === 'none') {
+                    setShirtType('figma');
+                  } else if (shirtType === 'figma') {
                     setShirtType('new');
                   } else if (shirtType === 'new') {
                     setShirtType('femcel');
@@ -679,6 +683,9 @@ export const PocketTechieLayout = () => {
                       setIsFeeding(false);
                       setIsCoding(false);
                       setIsListeningMusic(false);
+                      // Don't show dialogue for playing gameboy
+                      setShowItem(false);
+                      return;
                     } else if (itemType === 'macbook') {
                       setIsCoding(true);
                       setIsFeeding(false);
@@ -716,7 +723,8 @@ export const PocketTechieLayout = () => {
                   }
                 } else {
                   // Character clicked when not feeding - show edgy tech bro phrase
-                  if (canClickCharacter && !showDialogue) {
+                  // Don't show dialogue if playing gameboy
+                  if (canClickCharacter && !showDialogue && !isPlaying) {
                     const randomEdgyPhrase = edgyTechBroPhrases[Math.floor(Math.random() * edgyTechBroPhrases.length)];
                     setDialogueText(randomEdgyPhrase);
                     setShowDialogue(true);
@@ -730,6 +738,97 @@ export const PocketTechieLayout = () => {
                 }
               }} 
             />
+
+            {/* Asteroids Game Animation - appears when playing gameboy */}
+            <AnimatePresence>
+              {isPlaying && (
+                <motion.div
+                  className="absolute left-[140px] top-[150px] w-[100px] h-[80px] z-40 pointer-events-none"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Game screen background */}
+                  <div className="absolute inset-0 bg-black rounded-sm border-2 border-gray-600" />
+                  
+                  {/* Spaceship */}
+                  <motion.div
+                    className="absolute bottom-[10px] w-0 h-0"
+                    animate={{
+                      left: [10, 30, 60, 80, 60, 30, 10],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      borderLeft: '5px solid transparent',
+                      borderRight: '5px solid transparent',
+                      borderBottom: '10px solid white',
+                    }}
+                  />
+                  
+                  {/* Bullets */}
+                  <motion.div
+                    className="absolute left-[48px] w-[2px] h-[4px] bg-white"
+                    animate={{
+                      y: [-10, -70],
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  />
+                  
+                  {/* Asteroid 1 */}
+                  <motion.div
+                    className="absolute left-[20px] w-[8px] h-[8px] bg-gray-400 rounded-sm"
+                    animate={{
+                      y: [0, 80],
+                      rotate: [0, 180]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  />
+                  
+                  {/* Asteroid 2 */}
+                  <motion.div
+                    className="absolute left-[60px] w-[10px] h-[10px] bg-gray-500 rounded-sm"
+                    animate={{
+                      y: [-20, 80],
+                      rotate: [0, -180]
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: 0.5
+                    }}
+                  />
+                  
+                  {/* Asteroid 3 */}
+                  <motion.div
+                    className="absolute left-[35px] w-[6px] h-[6px] bg-gray-300 rounded-sm"
+                    animate={{
+                      y: [-30, 80],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      duration: 1.8,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: 1
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Item Image - appears when Feed or Play is clicked and follows cursor */}
             <AnimatePresence>
