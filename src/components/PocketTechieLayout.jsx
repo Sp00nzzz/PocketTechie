@@ -150,6 +150,7 @@ export const PocketTechieLayout = () => {
   const [canClickCharacter, setCanClickCharacter] = useState(true);
   const [characterName, setCharacterName] = useState('Name');
   const [tempName, setTempName] = useState('Name'); // Temporary name while editing
+  const [hasTyped, setHasTyped] = useState(false); // Track if user has typed
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -476,7 +477,28 @@ export const PocketTechieLayout = () => {
               <input
                 type="text"
                 value={tempName}
-                onChange={(e) => setTempName(e.target.value)}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  // If user hasn't typed yet and starts typing, clear the "Name" placeholder
+                  if (!hasTyped && tempName === 'Name') {
+                    setTempName(newValue === 'Name' ? '' : newValue);
+                    setHasTyped(true);
+                  } else {
+                    setTempName(newValue);
+                  }
+                }}
+                onFocus={() => {
+                  // Clear "Name" when user focuses if they haven't typed yet
+                  if (!hasTyped && tempName === 'Name') {
+                    setTempName('');
+                  }
+                }}
+                onBlur={() => {
+                  // If user leaves empty and hasn't typed, restore "Name"
+                  if (!hasTyped && tempName === '') {
+                    setTempName('Name');
+                  }
+                }}
                 maxLength={20}
                 className="absolute h-[19.888px] left-[68px] rounded-[1.732px] top-[8px] w-[100px] bg-[#4083ba] text-white text-[10px] px-2 outline-none border-none"
                 data-node-id="33:644"
@@ -526,26 +548,18 @@ export const PocketTechieLayout = () => {
                     damping: 20
                   }}
                 >
-                  <div className="relative inline-block" style={{ lineHeight: 0 }}>
+                  <div className="relative inline-block" style={{ lineHeight: 0, width: '120px', height: '100px' }}>
                     {/* Speech bubble using Figma vector */}
                     <img 
                       src="/assets/speech-bubble.svg"
                       alt="Speech bubble"
-                      className="block"
+                      className="block absolute inset-0"
                       style={{ 
-                        width: '100px', 
-                        height: 'auto', 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'contain',
                         display: 'block',
                         verticalAlign: 'top'
-                      }}
-                      onLoad={(e) => {
-                        // Lock height based on natural aspect ratio to prevent stretching
-                        const img = e.target;
-                        if (img.naturalWidth && img.naturalHeight) {
-                          const aspectRatio = img.naturalWidth / img.naturalHeight;
-                          img.style.height = `${200 / aspectRatio}px`;
-                          img.style.width = '120px';
-                        }
                       }}
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none overflow-hidden" style={{ padding: '8px 12px 12px 16px', maxWidth: '100px', maxHeight: '80px', width: '100%', height: '100%' }}>
@@ -768,26 +782,18 @@ export const PocketTechieLayout = () => {
                     damping: 20
                   }}
                 >
-                  <div className="relative inline-block" style={{ lineHeight: 0 }}>
+                  <div className="relative inline-block" style={{ lineHeight: 0, width: '120px', height: '100px' }}>
                     {/* Speech bubble using Figma vector */}
                     <img 
                       src="/assets/speech-bubble.svg"
                       alt="Speech bubble"
-                      className="block"
+                      className="block absolute inset-0"
                       style={{ 
-                        width: '100px', 
-                        height: 'auto', 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'contain',
                         display: 'block',
                         verticalAlign: 'top'
-                      }}
-                      onLoad={(e) => {
-                        // Lock height based on natural aspect ratio to prevent stretching
-                        const img = e.target;
-                        if (img.naturalWidth && img.naturalHeight) {
-                          const aspectRatio = img.naturalWidth / img.naturalHeight;
-                          img.style.height = `${200 / aspectRatio}px`;
-                          img.style.width = '120px';
-                        }
                       }}
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none overflow-hidden" style={{ padding: '8px 12px 8px 16px', maxWidth: '100px', maxHeight: '80px', width: '100%', height: '100%' }}>
