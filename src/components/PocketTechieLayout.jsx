@@ -15,7 +15,12 @@ const techBroPhrasesEating = [
 
 const edgyTechBroPhrases = [
   "Let me post this on X",
-  "Fuck my stupid chungus life"
+  "Fuck my stupid chungus life",
+  "I'm going to make it into YC bro",
+  "yeah i predicted cluely downfall",
+  "a16z will invest in me trust",
+  "what is your problem?",
+  "i'm just here to code"
 ];
 
 const denialPhrases = [
