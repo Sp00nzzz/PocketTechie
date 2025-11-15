@@ -27,6 +27,10 @@ const imgImage18 = "/assets/badge-figma.png";
 const imgGlasses = "/assets/glasses.svg";
 // Headphones asset
 const imgHeadphones = "/assets/headphones.svg";
+// Old man hair asset
+const imgOldManHair = "/assets/old-man-hair.svg";
+// Bowtie asset
+const imgBowtie = "/assets/bowtie.svg";
 
 // Export breathing animation so it can be shared with other components
 export const breathingAnimation = {
@@ -38,7 +42,7 @@ export const breathingAnimation = {
   }
 };
 
-export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, isPlaying = false, isCoding = false, isListeningMusic = false, isGooning = false, foodType = 'shawarma', pantsType = 'none', shirtType = 'none', glassesType = 'none' }) => {
+export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, isPlaying = false, isCoding = false, isListeningMusic = false, isGooning = false, foodType = 'shawarma', pantsType = 'none', shirtType = 'none', glassesType = 'none', hairType = 'none' }) => {
   // Code lines for typing animation
   const codeLines = [
     "const hello = 'world';",
@@ -220,6 +224,29 @@ export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, isP
       >
         <div className="absolute bottom-0 left-0 right-[-0.77%] top-[-1.14%]">
           <img alt="Glasses" className="block max-w-none w-full h-full" src={imgGlasses} />
+        </div>
+      </motion.div>
+
+      {/* Old Man Hair - positioned to align with head - always rendered for animation sync */}
+      <motion.div 
+        className="absolute left-[173px] top-[253px] w-[123px] h-[28px] z-[25]" 
+        data-node-id="70:19"
+        animate={isListeningMusic ? musicHeadbobAnimation : headBobAnimation}
+        style={{ opacity: hairType === 'oldmanhair' ? 1 : 0, pointerEvents: hairType === 'oldmanhair' ? 'auto' : 'none' }}
+      >
+        <div className="absolute bottom-[-2.65%] left-0 right-[-0.4%] top-0">
+          <img alt="Old Man Hair" className="block max-w-none w-full h-full" src={imgOldManHair} />
+        </div>
+      </motion.div>
+
+      {/* Bowtie - positioned near neck/chin - always rendered for animation sync */}
+      <motion.div 
+        className="absolute left-[195px] top-[218px] w-[60px] h-[50px] z-[25]" 
+        animate={isListeningMusic ? musicHeadbobAnimation : headBobAnimation}
+        style={{ opacity: hairType === 'bowtie' ? 1 : 0, pointerEvents: hairType === 'bowtie' ? 'auto' : 'none' }}
+      >
+        <div className="absolute inset-0">
+          <img alt="Bowtie" className="block max-w-none w-full h-full" src={imgBowtie} />
         </div>
       </motion.div>
 

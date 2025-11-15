@@ -155,7 +155,7 @@ export const PocketTechieLayout = () => {
   const [isCustomizeMode, setIsCustomizeMode] = useState(false);
   const [shirtType, setShirtType] = useState('none'); // 'none', 'kalshi', 'nyc', 'twitter', 'gooner', 'femcel', 'new', 'figma'
   const [pantsType, setPantsType] = useState('none'); // 'none', 'pants'
-  const [glassesType, setGlassesType] = useState('none'); // 'none', 'glasses'
+  const [hatType, setHatType] = useState('none'); // 'none', 'glasses', 'oldmanhair', 'bowtie'
   const [canClickCharacter, setCanClickCharacter] = useState(true);
   const [characterName, setCharacterName] = useState('Name');
   const [tempName, setTempName] = useState('Name'); // Temporary name while editing
@@ -522,7 +522,8 @@ export const PocketTechieLayout = () => {
               }}
               pantsType={pantsType}
               shirtType={shirtType}
-              glassesType={glassesType}
+              glassesType={hatType}
+              hairType={hatType}
             />
             
             {/* Left Arrow Buttons */}
@@ -530,12 +531,20 @@ export const PocketTechieLayout = () => {
               className="absolute h-[204px] left-[45px] top-[234px] w-[25px]" 
               data-node-id="15:332"
             >
-              {/* Top section - controls glasses */}
+              {/* Top section - controls hat (glasses, hair, and bowtie) */}
               <div 
                 className="absolute top-0 left-0 right-0 h-[45px] cursor-pointer z-10"
                 onClick={() => {
-                  // Toggle glasses: none -> glasses -> none
-                  setGlassesType(glassesType === 'none' ? 'glasses' : 'none');
+                  // Cycle through: none -> glasses -> oldmanhair -> bowtie -> none
+                  if (hatType === 'none') {
+                    setHatType('glasses');
+                  } else if (hatType === 'glasses') {
+                    setHatType('oldmanhair');
+                  } else if (hatType === 'oldmanhair') {
+                    setHatType('bowtie');
+                  } else {
+                    setHatType('none');
+                  }
                 }}
               />
               {/* Middle section - controls shirts */}
@@ -691,12 +700,20 @@ export const PocketTechieLayout = () => {
             <div 
               className="absolute flex h-[204px] items-center justify-center left-[289px] top-[234px] w-[25px]"
             >
-              {/* Top section - controls glasses */}
+              {/* Top section - controls hat (glasses, hair, and bowtie) */}
               <div 
                 className="absolute top-0 left-0 right-0 h-[45px] cursor-pointer z-10"
                 onClick={() => {
-                  // Toggle glasses: none -> glasses -> none (same as left side)
-                  setGlassesType(glassesType === 'none' ? 'glasses' : 'none');
+                  // Cycle through in reverse: none -> bowtie -> oldmanhair -> glasses -> none
+                  if (hatType === 'none') {
+                    setHatType('bowtie');
+                  } else if (hatType === 'bowtie') {
+                    setHatType('oldmanhair');
+                  } else if (hatType === 'oldmanhair') {
+                    setHatType('glasses');
+                  } else {
+                    setHatType('none');
+                  }
                 }}
               />
               {/* Middle section - controls shirts */}
@@ -784,7 +801,8 @@ export const PocketTechieLayout = () => {
               foodType={itemType}
               pantsType={pantsType}
               shirtType={shirtType}
-              glassesType={glassesType}
+              glassesType={hatType}
+              hairType={hatType}
               onCharacterClick={() => {
                 if (showItem) {
                   // Macbook and iPod are always accepted, others have 70% chance to accept
