@@ -177,6 +177,20 @@ export const PocketTechieLayout = () => {
   const [showLevelUp, setShowLevelUp] = useState(false); // Show level up notification
   const [achievements, setAchievements] = useState([]); // Unlocked achievements
   const [totalInteractions, setTotalInteractions] = useState(0); // Total interactions count
+  const [isMobile, setIsMobile] = useState(false); // Detect if on mobile device
+
+  // Detect mobile device on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+      setIsMobile(isMobileDevice);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -314,7 +328,36 @@ export const PocketTechieLayout = () => {
       const randomFood = Math.random() > 0.5 ? 'shawarma' : 'ramen';
       setItemType(randomFood);
       
-      // Get initial position at click location
+      // On mobile, directly trigger the feeding action
+      if (isMobile) {
+        const willAccept = Math.random() > 0.3; // 70% chance to accept
+        
+        if (willAccept) {
+          setIsFeeding(true);
+          setIsPlaying(false);
+          setIsCoding(false);
+          setIsListeningMusic(false);
+          handleInteraction('feed', true);
+          
+          // Show dialogue
+          const randomPhrase = techBroPhrasesEating[Math.floor(Math.random() * techBroPhrasesEating.length)];
+          setDialogueText(randomPhrase);
+          setShowDialogue(true);
+        } else {
+          // Character denies food
+          const randomDenial = denialPhrases[Math.floor(Math.random() * denialPhrases.length)];
+          setDialogueText(randomDenial);
+          setShowDialogue(true);
+          setIsFeeding(false);
+          setIsPlaying(false);
+          setIsCoding(false);
+          setIsListeningMusic(false);
+          handleInteraction('rejected', false);
+        }
+        return; // Exit early on mobile
+      }
+      
+      // Desktop behavior: spawn item
       const container = document.querySelector('.relative.max-w-\\[400px\\]');
       if (container) {
         const rect = container.getBoundingClientRect();
@@ -331,7 +374,18 @@ export const PocketTechieLayout = () => {
       // Show gameboy
       setItemType('gameboy');
       
-      // Get initial position at click location
+      // On mobile, directly trigger the playing action
+      if (isMobile) {
+        setIsPlaying(true);
+        setIsFeeding(false);
+        setIsCoding(false);
+        setIsListeningMusic(false);
+        setGameType(Math.random() > 0.5 ? 'asteroids' : 'snake');
+        handleInteraction('play', true);
+        return; // Exit early on mobile
+      }
+      
+      // Desktop behavior: spawn item
       const container = document.querySelector('.relative.max-w-\\[400px\\]');
       if (container) {
         const rect = container.getBoundingClientRect();
@@ -348,7 +402,17 @@ export const PocketTechieLayout = () => {
       // Show macbook
       setItemType('macbook');
       
-      // Get initial position at click location
+      // On mobile, directly trigger the coding action
+      if (isMobile) {
+        setIsCoding(true);
+        setIsFeeding(false);
+        setIsPlaying(false);
+        setIsListeningMusic(false);
+        handleInteraction('code', true);
+        return; // Exit early on mobile
+      }
+      
+      // Desktop behavior: spawn item
       const container = document.querySelector('.relative.max-w-\\[400px\\]');
       if (container) {
         const rect = container.getBoundingClientRect();
@@ -365,7 +429,17 @@ export const PocketTechieLayout = () => {
       // Show iPod
       setItemType('ipod');
       
-      // Get initial position at click location
+      // On mobile, directly trigger the music action
+      if (isMobile) {
+        setIsListeningMusic(true);
+        setIsFeeding(false);
+        setIsPlaying(false);
+        setIsCoding(false);
+        handleInteraction('music', true);
+        return; // Exit early on mobile
+      }
+      
+      // Desktop behavior: spawn item
       const container = document.querySelector('.relative.max-w-\\[400px\\]');
       if (container) {
         const rect = container.getBoundingClientRect();
