@@ -31,6 +31,12 @@ const imgHeadphones = "/assets/headphones.svg";
 const imgOldManHair = "/assets/old-man-hair.svg";
 // Bowtie asset
 const imgBowtie = "/assets/bowtie.svg";
+// Spikey hair asset
+const imgSpikeyHair = "/assets/spikey-hair.svg";
+// Medium hair asset
+const imgMediumHair = "/assets/medium-hair.svg";
+// Bowl cut hair asset
+const imgBowlCutHair = "/assets/bowl-cut-hair.svg";
 
 // Export breathing animation so it can be shared with other components
 export const breathingAnimation = {
@@ -247,6 +253,42 @@ export const PocketTechieCharacter = ({ onCharacterClick, isFeeding = false, isP
       >
         <div className="absolute inset-0">
           <img alt="Bowtie" className="block max-w-none w-full h-full" src={imgBowtie} />
+        </div>
+      </motion.div>
+
+      {/* Spikey Hair - positioned on top of head - always rendered for animation sync */}
+      <motion.div 
+        className="absolute left-[130px] top-[203px] w-[113px] h-[68px] z-[25]" 
+        data-node-id="78:54"
+        animate={isListeningMusic ? musicHeadbobAnimation : headBobAnimation}
+        style={{ opacity: hairType === 'spikeyhair' ? 1 : 0, pointerEvents: hairType === 'spikeyhair' ? 'auto' : 'none' }}
+      >
+        <div className="absolute inset-[-11.5%_-5.95%_-13.41%_-7.83%]">
+          <img alt="Spikey Hair" className="block max-w-none w-full h-full" src={imgSpikeyHair} />
+        </div>
+      </motion.div>
+
+      {/* Medium Hair - positioned on top of head - always rendered for animation sync */}
+      <motion.div 
+        className="absolute left-[106px] top-[203px] w-[163px] h-[118px] z-[25]" 
+        data-node-id="78:64"
+        animate={isListeningMusic ? musicHeadbobAnimation : headBobAnimation}
+        style={{ opacity: hairType === 'mediumhair' ? 1 : 0, pointerEvents: hairType === 'mediumhair' ? 'auto' : 'none' }}
+      >
+        <div className="absolute inset-[-1.77%_-0.7%_-1.42%_-2.35%]">
+          <img alt="Medium Hair" className="block max-w-none w-full h-full" src={imgMediumHair} />
+        </div>
+      </motion.div>
+
+      {/* Bowl Cut Hair - positioned on top of head - always rendered for animation sync */}
+      <motion.div 
+        className="absolute left-[130px] top-[223px] w-[113px] h-[58px] z-[25]" 
+        data-node-id="78:72"
+        animate={isListeningMusic ? musicHeadbobAnimation : headBobAnimation}
+        style={{ opacity: hairType === 'bowlcuthair' ? 1 : 0, pointerEvents: hairType === 'bowlcuthair' ? 'auto' : 'none' }}
+      >
+        <div className="absolute inset-[-0.76%_-0.42%_-2.36%_-0.42%]">
+          <img alt="Bowl Cut Hair" className="block max-w-none w-full h-full" src={imgBowlCutHair} />
         </div>
       </motion.div>
 

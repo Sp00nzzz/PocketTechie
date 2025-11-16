@@ -19,11 +19,19 @@ const edgyTechBroPhrases = [
   "yeah i predicted cluely downfall",
   "a16z will invest in me trust",
   "what is your problem?",
-  "i'm just here to code"
+  "i'm not crazy, you're fucking crazy",
+  "i just bought hinge premium",
+  "i love ABGs",
+  "yeah im a founder",
+  "do you even listen to the founders podcast",
+  "yeah I got invited to yc school",
+  'I won 36 hackathons',
+  "fuck you and your shitty startup",
+  "fuck you"
 ];
 
 const denialPhrases = [
-  "I'm not hungry",
+  "shut up",
   "I don't want it",
   "No thanks",
   "Not right now",
@@ -155,7 +163,7 @@ export const PocketTechieLayout = () => {
   const [isCustomizeMode, setIsCustomizeMode] = useState(false);
   const [shirtType, setShirtType] = useState('none'); // 'none', 'kalshi', 'nyc', 'twitter', 'gooner', 'femcel', 'new', 'figma'
   const [pantsType, setPantsType] = useState('none'); // 'none', 'pants'
-  const [hatType, setHatType] = useState('none'); // 'none', 'glasses', 'oldmanhair', 'bowtie'
+  const [hatType, setHatType] = useState('none'); // 'none', 'glasses', 'oldmanhair', 'bowtie', 'spikeyhair', 'mediumhair', 'bowlcuthair'
   const [canClickCharacter, setCanClickCharacter] = useState(true);
   const [characterName, setCharacterName] = useState('Name');
   const [tempName, setTempName] = useState('Name'); // Temporary name while editing
@@ -531,17 +539,23 @@ export const PocketTechieLayout = () => {
               className="absolute h-[204px] left-[45px] top-[234px] w-[25px]" 
               data-node-id="15:332"
             >
-              {/* Top section - controls hat (glasses, hair, and bowtie) */}
+              {/* Top section - controls hat (glasses, hair types, and bowtie) */}
               <div 
                 className="absolute top-0 left-0 right-0 h-[45px] cursor-pointer z-10"
                 onClick={() => {
-                  // Cycle through: none -> glasses -> oldmanhair -> bowtie -> none
+                  // Cycle through: none -> glasses -> oldmanhair -> bowtie -> spikeyhair -> mediumhair -> bowlcuthair -> none
                   if (hatType === 'none') {
                     setHatType('glasses');
                   } else if (hatType === 'glasses') {
                     setHatType('oldmanhair');
                   } else if (hatType === 'oldmanhair') {
                     setHatType('bowtie');
+                  } else if (hatType === 'bowtie') {
+                    setHatType('spikeyhair');
+                  } else if (hatType === 'spikeyhair') {
+                    setHatType('mediumhair');
+                  } else if (hatType === 'mediumhair') {
+                    setHatType('bowlcuthair');
                   } else {
                     setHatType('none');
                   }
@@ -700,12 +714,18 @@ export const PocketTechieLayout = () => {
             <div 
               className="absolute flex h-[204px] items-center justify-center left-[289px] top-[234px] w-[25px]"
             >
-              {/* Top section - controls hat (glasses, hair, and bowtie) */}
+              {/* Top section - controls hat (glasses, hair types, and bowtie) */}
               <div 
                 className="absolute top-0 left-0 right-0 h-[45px] cursor-pointer z-10"
                 onClick={() => {
-                  // Cycle through in reverse: none -> bowtie -> oldmanhair -> glasses -> none
+                  // Cycle through in reverse: none -> bowlcuthair -> mediumhair -> spikeyhair -> bowtie -> oldmanhair -> glasses -> none
                   if (hatType === 'none') {
+                    setHatType('bowlcuthair');
+                  } else if (hatType === 'bowlcuthair') {
+                    setHatType('mediumhair');
+                  } else if (hatType === 'mediumhair') {
+                    setHatType('spikeyhair');
+                  } else if (hatType === 'spikeyhair') {
                     setHatType('bowtie');
                   } else if (hatType === 'bowtie') {
                     setHatType('oldmanhair');
